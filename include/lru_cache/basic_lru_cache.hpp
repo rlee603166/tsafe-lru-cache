@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include <iostream>
@@ -13,18 +11,15 @@ class Node {
 public:
     T1 key;
     T2 value;
-
     Node<T1, T2>* next;
     Node<T1, T2>* prev;
 
     Node();
-
-    Node(const T1& k, const T2& val);    
-
-    void to_string() const;
+    Node(const T1& k, const T2& val);
+    void to_string();
 };
 
-template <typename T1, typename T2> 
+template <typename T1, typename T2>
 class LRUCache {
 private:
     Node<T1, T2>* dummy_head;
@@ -34,34 +29,23 @@ private:
     int current_size;
 
     void addToHead(Node<T1, T2>* node);
-
     void removeNode(Node<T1, T2>* node);
-
     void moveToHead(Node<T1, T2>* node);
-
     void evictTail();
 
-public: 
-
+public:
     LRUCache(int cap = 10);
-
-    T2 get(const T1& key);
-
+    std::optional<T2> get(const T1& key);
     void put(const T1& key, const T2& value);
-
-    int getSize() const;
-
-    int getCapacity() const;
-
+    int getSize();
+    int getCapacity();
     void clear();
-
-    void printCache() const;
-
-    bool empty() const;
-
-    bool full() const;
-
-    bool contains(const T1& key) const;
+    void printCache();
+    bool contains(const T1& key);
+    bool empty();
+    bool full();
 };
 
-};
+}
+
+#include "basic_lru_cache.tpp"

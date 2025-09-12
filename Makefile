@@ -3,7 +3,7 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -O2 -Iinclude
 TARGET = basic_cache_demo
 SOURCES = main.cpp
-HEADERS = include/lru_cache/basic_lru_cache.hpp
+# HEADERS = include/lru_cache/basic_lru_cache.hpp
 
 $(TARGET): $(SOURCES) $(HEADERS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SOURCES)
