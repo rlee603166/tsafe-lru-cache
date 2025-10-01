@@ -1,15 +1,15 @@
 
 #include <gtest/gtest.h>
-#include "lru_cache/basic_lru_cache.hpp"
+#include "tsafe_lru_cache/basic_lru_cache.hpp"
 #include <string>
 #include <vector>
 
 using namespace std;
 
-class BasicLRUCacheTest : public ::testing::Test {}
+class LRUCacheTest : public ::testing::Test {};
 
-TEST_F(BasicLRUCacheTest, Construction) {
-    BasicLRUCache<int, string> cache(3);
+TEST_F(LRUCacheTest, Construction) {
+    basic_cache::LRUCache<int, string> cache(3);
 
     EXPECT_EQ(cache.getSize(), 0);
     EXPECT_EQ(cache.getCapacity(), 3);
@@ -17,13 +17,13 @@ TEST_F(BasicLRUCacheTest, Construction) {
 }
 
 // Test zero capacity (edge case)
-TEST_F(BasicLRUCacheTest, Construction) {
-    BasicLRUCache<int, string> cache(0);
+TEST_F(LRUCacheTest, ZeroCapacity) {
+    basic_cache::LRUCache<int, string> cache(0);    
 
     EXPECT_EQ(cache.getSize(), 0);
     EXPECT_EQ(cache.getCapacity(), 0);
 
-    cache.put(1, 100);
+    cache.put(1, "100");
     EXPECT_EQ(cache.getSize(), 0);
 
     auto result = cache.get(1);
@@ -32,21 +32,8 @@ TEST_F(BasicLRUCacheTest, Construction) {
 
 
 // Test single element operation
-TEST_F(BasicLRUCacheTest, Construction) {
-    BasicLRUCache<int, string> cache(0);
-
-    EXPECT_EQ(cache.getSize(), 0);
-    EXPECT_EQ(cache.getCapacity(), 0);
-
-    cache.put(1, 100);
-    EXPECT_EQ(cache.getSize(), 0);
-
-    auto result = cache.get(1);
-    EXPECT_FALSE(result.has_value());
-}
-
-TEST_F(BasicLRUCacheTest, SingleElement) {
-    BasicLRUCache<int, string> cache(1);
+TEST_F(LRUCacheTest, SingleElement) {
+    basic_cache::LRUCache<int, string> cache(1);
     
     // Insert single element
     cache.put(1, "one");
@@ -73,8 +60,8 @@ TEST_F(BasicLRUCacheTest, SingleElement) {
 }
 
 // Test basic get/put operations
-TEST_F(BasicLRUCacheTest, BasicOperations) {
-    BasicLRUCache<int, string> cache(3);
+TEST_F(LRUCacheTest, BasicOperations) {
+    basic_cache::LRUCache<int, string> cache(3);
     
     // Test empty cache get
     auto result = cache.get(1);
@@ -102,8 +89,8 @@ TEST_F(BasicLRUCacheTest, BasicOperations) {
 }
 
 // Test LRU eviction behavior
-TEST_F(BasicLRUCacheTest, LRUEviction) {
-    BasicLRUCache<int, string> cache(3);
+TEST_F(LRUCacheTest, LRUEviction) {
+    basic_cache::LRUCache<int, string> cache(3);
     
     // Fill cache to capacity
     cache.put(1, "one");
@@ -137,8 +124,8 @@ TEST_F(BasicLRUCacheTest, LRUEviction) {
 }
 
 // Test updating existing keys
-TEST_F(BasicLRUCacheTest, UpdateExistingKey) {
-    BasicLRUCache<int, string> cache(3);
+TEST_F(LRUCacheTest, UpdateExistingKey) {
+    basic_cache::LRUCache<int, string> cache(3);
     
     cache.put(1, "original");
     cache.put(2, "two");
@@ -169,8 +156,8 @@ TEST_F(BasicLRUCacheTest, UpdateExistingKey) {
 }
 
 // Test LRU ordering with gets
-TEST_F(BasicLRUCacheTest, LRUOrderingWithGets) {
-    BasicLRUCache<int, string> cache(3);
+TEST_F(LRUCacheTest, LRUOrderingWithGets) {
+    basic_cache::LRUCache<int, string> cache(3);
     
     cache.put(1, "one");
     cache.put(2, "two");
@@ -198,8 +185,8 @@ TEST_F(BasicLRUCacheTest, LRUOrderingWithGets) {
 }
 
 // Test sequence of evictions
-TEST_F(BasicLRUCacheTest, EvictionSequence) {
-    BasicLRUCache<int, string> cache(2);
+TEST_F(LRUCacheTest, EvictionSequence) {
+    basic_cache::LRUCache<int, string> cache(2);
     
     // Insert sequence: 1, 2, 3, 4, 5
     cache.put(1, "one");
@@ -224,8 +211,8 @@ TEST_F(BasicLRUCacheTest, EvictionSequence) {
 }
 
 // Test clear functionality
-TEST_F(BasicLRUCacheTest, Clear) {
-    BasicLRUCache<int, string> cache(3);
+TEST_F(LRUCacheTest, Clear) {
+    basic_cache::LRUCache<int, string> cache(3);
     
     cache.put(1, "one");
     cache.put(2, "two");
@@ -252,8 +239,8 @@ TEST_F(BasicLRUCacheTest, Clear) {
 }
 
 // Test with different key/value types
-TEST_F(BasicLRUCacheTest, DifferentTypes) {
-    BasicLRUCache<string, int> cache(2);
+TEST_F(LRUCacheTest, DifferentTypes) {
+    basic_cache::LRUCache<string, int> cache(2);
     
     cache.put("hello", 42);
     cache.put("world", 84);
@@ -279,9 +266,9 @@ TEST_F(BasicLRUCacheTest, DifferentTypes) {
 }
 
 // Test large capacity
-TEST_F(BasicLRUCacheTest, LargeCapacity) {
+TEST_F(LRUCacheTest, LargeCapacity) {
     const size_t capacity = 1000;
-    BasicLRUCache<int, int> cache(capacity);
+    basic_cache::LRUCache<int, int> cache(capacity);
     
     // Fill cache completely
     for (int i = 0; i < static_cast<int>(capacity); ++i) {
@@ -312,8 +299,8 @@ TEST_F(BasicLRUCacheTest, LargeCapacity) {
 }
 
 // Test stress scenario with many operations
-TEST_F(BasicLRUCacheTest, StressTest) {
-    BasicLRUCache<int, string> cache(10);
+TEST_F(LRUCacheTest, StressTest) {
+    basic_cache::LRUCache<int, string> cache(10);
     
     vector<int> keys_to_test;
     
@@ -341,16 +328,16 @@ TEST_F(BasicLRUCacheTest, StressTest) {
 }
 
 // Test copy/move semantics (if implemented)
-// TEST_F(BasicLRUCacheTest, CopyMoveSemantics) {
-//     BasicLRUCache<int, string> cache1(3);
+// TEST_F(LRUCacheTest, CopyMoveSemantics) {
+//     basic_cache::LRUCache<int, string> cache1(3);
 //     cache1.put(1, "one");
 //     cache1.put(2, "two");
 //     
 //     // Test copy construction
-//     // BasicLRUCache<int, string> cache2 = cache1;
+//     // basic_cache::LRUCache<int, string> cache2 = cache1;
 //     
 //     // Test move construction
-//     // BasicLRUCache<int, string> cache3 = std::move(cache1);
+//     // basic_cache::LRUCache<int, string> cache3 = std::move(cache1);
 // }
 
 int main(int argc, char** argv) {

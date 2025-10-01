@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <optional>
 
-namespace basic_cache {
+namespace lru_cache {
 
 template <typename T1, typename T2>
 class Node {
@@ -48,4 +48,4 @@ public:
 
 }
 
-#include "basic_lru_cache.tpp"
+#include "lru_cache.tpp"

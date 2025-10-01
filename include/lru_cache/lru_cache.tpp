@@ -1,6 +1,6 @@
 #pragma once
 
-namespace basic_cache {
+namespace lru_cache {
 
 // ---------- Node Implementation ----------
 
