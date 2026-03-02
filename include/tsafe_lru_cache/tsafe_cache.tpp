@@ -5,8 +5,8 @@ namespace tsafe_cache {
 // ---------- TSafeCache Public Methods ----------
 
 template <typename T1, typename T2>
-TSafeCache<T1, T2>::TSafeCache(int cap = 10) {
-    cache_ = new lru_cache<T1, T2>(cap);
+TSafeCache<T1, T2>::TSafeCache(int cap) {
+    cache_ = new lru_cache::LRUCache<T1, T2>(cap);
 }
 
 template <typename T1, typename T2>
@@ -17,7 +17,7 @@ void TSafeCache<T1, T2>::put(const T1& key, const T2& value) {
 
 template <typename T1, typename T2>
 std::optional<T2> TSafeCache<T1, T2>::get(const T1& key) {
-    std::shared_lock<std::shared_mutex> lock(mtx_);
+    std::unique_lock<std::shared_mutex> lock(mtx_);
     return cache_->get(key);
 }
 

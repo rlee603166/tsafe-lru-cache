@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package cache;
+
+service CacheService {
+  rpc Get(GetRequest) returns (GetResponse);
+  rpc Put(PutRequest) returns (PutResponse);
+  rpc Clear(ClearRequest) returns (ClearResponse);
+  rpc GetStats(StatsRequest) returns (StatsResponse);
+}
+
+message GetRequest { string key = 1; }
+message GetResponse { bool found = 1; string value = 2; }
+
+message PutRequest { string key = 1; string value = 2; }
+message PutResponse {}
+
+message ClearRequest {}
+message ClearResponse {}
+
+message StatsRequest {}
+message StatsResponse {
+  int64 size = 1;
+  int64 capacity = 2;
+  double hit_rate = 3;
+  uint64 total_gets = 4;
+  uint64 total_hits = 5;
+}

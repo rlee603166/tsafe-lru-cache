@@ -77,7 +77,3 @@ _deps/
 .*.swp
 .*.swo
 
-# Legacy files from old structure
-basic_cache_demo
-node
-':w
